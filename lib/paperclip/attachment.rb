@@ -33,7 +33,7 @@ module Paperclip
         :use_timestamp         => true,
         :whiny                 => Paperclip.options[:whiny] || Paperclip.options[:whiny_thumbnails],
         :validate_media_type   => true,
-        :adapter_options       => { hash_digest: Digest::MD5 },
+        :adapter_options       => { hash_digest: Digest::SHA256 },
         :check_validity_before_processing => true
       }
     end
