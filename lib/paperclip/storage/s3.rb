@@ -256,6 +256,9 @@ module Paperclip
 
           config[:use_accelerate_endpoint] = use_accelerate_endpoint?
 
+          # CE-14900 - checksum cannot be done on fips deployment
+          config[:compute_checksums] = false
+
           [:access_key_id, :secret_access_key, :credential_provider, :credentials].each do |opt|
             config[opt] = s3_credentials[opt] if s3_credentials[opt]
           end
