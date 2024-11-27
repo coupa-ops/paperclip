@@ -387,6 +387,10 @@ module Paperclip
             write_options[:metadata] = @s3_metadata unless @s3_metadata.empty?
             write_options.merge!(@s3_headers)
 
+            sha256_checksum = Digest::SHA256.hexdigest(File.read(file.path))
+            encoded_sha256_checksum = Base64.encode64([sha256_checksum].pack("H*")).strip
+            write_options[:checksum_sha256] = encoded_sha256_checksum # Required for FIPS (SHA256) and object locking (checksum)
+
             s3_object(style).upload_file(file.path, write_options)
           rescue ::Aws::S3::Errors::NoSuchBucket
             create_bucket
